@@ -1,0 +1,2 @@
+<?php if (!defined('THINK_PATH')) exit();?>
+<?php if(is_array($apps)): $i = 0; $__LIST__ = $apps;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$app): $mod = ($i % 2 );++$i;?><li class="menu_item" id="<?php echo ($app["id"]); ?>"><a href="#"><?php echo ($app["appName"]); ?></a></li><?php endforeach; endif; else: echo "" ;endif; ?>

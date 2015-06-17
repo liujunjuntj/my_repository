@@ -1,0 +1,542 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="2.6" jmeter="2.11 r1554548">
+	<hashTree>
+		<TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="创建智能创意--创意名称超长" enabled="true">
+			<stringProp name="TestPlan.comments"></stringProp>
+			<boolProp name="TestPlan.functional_mode">false</boolProp>
+			<boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+			<elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+				<collectionProp name="Arguments.arguments"/>
+			</elementProp>
+			<stringProp name="TestPlan.user_define_classpath"></stringProp>
+		</TestPlan>
+		<hashTree>
+			
+
+			<ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="创建智能创意--创意名称超长" enabled="true">
+				<stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+				<elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+					<boolProp name="LoopController.continue_forever">false</boolProp>
+					<!-- 执行次数，默认写死一次 -->
+					<stringProp name="LoopController.loops">1</stringProp>
+				</elementProp>
+				<!-- 线程数 -->
+				<stringProp name="ThreadGroup.num_threads">1</stringProp>
+				<!-- 启动时间 -->
+				<stringProp name="ThreadGroup.ramp_time">1</stringProp>
+				<longProp name="ThreadGroup.start_time">1434013437</longProp>
+				<longProp name="ThreadGroup.end_time">1434013437</longProp>
+				<boolProp name="ThreadGroup.scheduler">false</boolProp>
+				<!-- 持续时间 -->
+				<stringProp name="ThreadGroup.duration">0</stringProp>
+				<stringProp name="ThreadGroup.delay"></stringProp>
+			</ThreadGroup>
+			<hashTree>
+				<CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
+					<collectionProp name="CookieManager.cookies"/>
+					<!-- 是否每次都清除cookie，默认是false -->
+					<boolProp name="CookieManager.clearEachIteration">false</boolProp>
+				</CookieManager>
+				<hashTree/>
+<BeanShellSampler guiclass="BeanShellSamplerGui" testclass="BeanShellSampler" testname="Test Data Import" enabled="true">
+	<stringProp name="BeanShellSampler.query">
+		vars.put(&quot;dsp_host&quot;,&quot;dsptest.baidu.com&quot;);vars.put(&quot;dsp_port&quot;,&quot;8082&quot;);vars.put(&quot;login_user&quot;,&quot;dancai&quot;);vars.put(&quot;password&quot;,&quot;Asd123&quot;);vars.put(&quot;uc_host&quot;,&quot;cas-off.baidu.com&quot;);vars.put(&quot;uc_port&quot;,&quot;8443&quot;);vars.put(&quot;image_code&quot;,&quot;1111&quot;);vars.put(&quot;adOwnerId&quot;,&quot;19&quot;);vars.put(&quot;campaign_name&quot;,&quot;英雄联盟&quot;);vars.put(&quot;campaign_abstractContent&quot;,&quot;腾讯LOL对战推广&quot;);vars.put(&quot;campaign_budgetType_total&quot;,&quot;0&quot;);vars.put(&quot;campaign_budgetType_day&quot;,&quot;1&quot;);vars.put(&quot;too_long_string_cn&quot;,&quot;豫章故郡-洪都新府-星分翼轸-地接衡庐-襟三江而带五湖-控蛮荆而引瓯越-物华天宝-龙光射牛斗之墟-人杰地灵-徐孺下陈蕃之榻-雄州雾列-俊采星驰-台隍枕夷夏之交-宾主尽东南之美-都督阎公之雅望-棨戟遥临-宇文新州之懿范-襜帷暂驻-十旬休假-胜友如云-千里逢迎-高朋满座-腾蛟起凤-孟学士之词宗-紫电青霜-王将军之武库-家君作宰-路出名区-童子何知-躬逢胜饯&quot;);vars.put(&quot;ad_name&quot;,&quot;LOL英雄皮肤面免费送&quot;);vars.put(&quot;max_int&quot;,&quot;2147483647&quot;);vars.put(&quot;dsp_appid&quot;,&quot;244&quot;);vars.put(&quot;120x600-jpg&quot;,&quot;/home/work/service/webapps/BAT/Upload/1/120-600.jpg&quot;);vars.put(&quot;text_creativity_icon&quot;,&quot;/home/work/service/webapps/BAT/Upload/1/text_image.jpg&quot;);vars.put(&quot;creativity_text_firstTitle&quot;,&quot;文本创意&quot;);vars.put(&quot;creativity_text_firstDesc&quot;,&quot;文本创意描述第一行&quot;);vars.put(&quot;creativity_text_secondDesc&quot;,&quot;文本创意描述第二行&quot;);vars.put(&quot;creativity_targetUrl&quot;,&quot;http://www.baidu.com/&quot;);vars.put(&quot;creativity_monitorUrl&quot;,&quot;http://www.qq.com/&quot;);vars.put(&quot;smart_template&quot;,&quot;66&quot;);	</stringProp>
+	<stringProp name="BeanShellSampler.filename"></stringProp>
+	<stringProp name="BeanShellSampler.parameters"></stringProp>
+	<boolProp name="BeanShellSampler.resetInterpreter">false</boolProp>
+</BeanShellSampler>
+<hashTree/>
+				<HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="UC登录API" enabled="true">
+											<elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+							<collectionProp name="Arguments.arguments">
+								<elementProp name="appid" elementType="HTTPArgument">
+										<stringProp name="Argument.name">appid</stringProp>
+										<stringProp name="Argument.value">${dsp_appid}</stringProp>
+										<stringProp name="Argument.metadata">=</stringProp>
+										<boolProp name="HTTPArgument.always_encode">true</boolProp>
+										<boolProp name="HTTPArgument.use_equals">true</boolProp>
+									</elementProp><elementProp name="name" elementType="HTTPArgument">
+										<stringProp name="Argument.name">name</stringProp>
+										<stringProp name="Argument.value">${login_user}</stringProp>
+										<stringProp name="Argument.metadata">=</stringProp>
+										<boolProp name="HTTPArgument.always_encode">true</boolProp>
+										<boolProp name="HTTPArgument.use_equals">true</boolProp>
+									</elementProp><elementProp name="password" elementType="HTTPArgument">
+										<stringProp name="Argument.name">password</stringProp>
+										<stringProp name="Argument.value">${password}</stringProp>
+										<stringProp name="Argument.metadata">=</stringProp>
+										<boolProp name="HTTPArgument.always_encode">true</boolProp>
+										<boolProp name="HTTPArgument.use_equals">true</boolProp>
+									</elementProp><elementProp name="isonline" elementType="HTTPArgument">
+										<stringProp name="Argument.name">isonline</stringProp>
+										<stringProp name="Argument.value">0</stringProp>
+										<stringProp name="Argument.metadata">=</stringProp>
+										<boolProp name="HTTPArgument.always_encode">true</boolProp>
+										<boolProp name="HTTPArgument.use_equals">true</boolProp>
+									</elementProp>							</collectionProp>
+						</elementProp>					<stringProp name="HTTPSampler.domain">ucliantiao.baidu.com</stringProp>
+					<!-- 端口,默认80 -->
+					<stringProp name="HTTPSampler.port">8321</stringProp>
+					<!-- 连接超时时间，默认10秒 -->
+					<stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
+					<!-- 响应超时时间 -->
+					<stringProp name="HTTPSampler.response_timeout">20000</stringProp>
+					<!-- 协议类型 -->
+					<stringProp name="HTTPSampler.protocol">http</stringProp>
+					<!-- 请求参数编码类型,默认UTF8 -->
+					<stringProp name="HTTPSampler.contentEncoding"></stringProp>
+					<!-- http的path部分 -->
+					<stringProp name="HTTPSampler.path">/api/login</stringProp>
+					<!-- 请求method -->
+					<stringProp name="HTTPSampler.method">GET</stringProp>
+					<!-- 跟随重定向 -->
+					<boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+					<!-- 自动重定向 -->
+					<boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+					<!-- 长连接keepalive -->
+					<boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+					<!-- 有附件的时候才用到 -->
+					<boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+										<stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+					<boolProp name="HTTPSampler.monitor">false</boolProp>
+					<stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+				</HTTPSamplerProxy>
+				<hashTree>
+					<HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP信息头管理器" enabled="true">
+					<collectionProp name="HeaderManager.headers">
+						<elementProp name="Accept-Language" elementType="Header">
+							  <stringProp name="Header.name">Cache-Control</stringProp>
+							  <stringProp name="Header.value">max-age=0</stringProp>
+							</elementProp><elementProp name="Accept-Language" elementType="Header">
+							  <stringProp name="Header.name">Accept</stringProp>
+							  <stringProp name="Header.value">text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</stringProp>
+							</elementProp><elementProp name="Accept-Language" elementType="Header">
+							  <stringProp name="Header.name">User-Agent</stringProp>
+							  <stringProp name="Header.value">Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36</stringProp>
+							</elementProp><elementProp name="Accept-Language" elementType="Header">
+							  <stringProp name="Header.name">Accept-Encoding</stringProp>
+							  <stringProp name="Header.value">gzip, deflate, sdch</stringProp>
+							</elementProp><elementProp name="Accept-Language" elementType="Header">
+							  <stringProp name="Header.name">Accept-Language</stringProp>
+							  <stringProp name="Header.value">zh-CN,zh;q=0.8</stringProp>
+							</elementProp>					</collectionProp>
+					</HeaderManager>
+					<hashTree/>
+										<BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="BeanShell断言" enabled="true">
+						<stringProp name="BeanShellAssertion.query">import com.mysql.jdbc.Driver; 
+import java.sql.*;  
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+response = ResponseHeaders + SampleResult.getResponseDataAsString();
+assertStr = &quot;\\{\&quot;status\&quot;:1,\&quot;error\&quot;:\&quot;\&quot;,\&quot;data\&quot;:\\{\&quot;LOGINUID\&quot;:\&quot;(\\d+)\&quot;,\&quot;LOGINAID\&quot;:\&quot;(\\d+)\&quot;,\&quot;SIGNIN_UC\&quot;:\&quot;(.*)\&quot;,\&quot;stkey\&quot;:\&quot;(.*)\&quot;\\}\\}&quot;;
+Pattern pat = Pattern.compile(assertStr);  
+Matcher mat = pat.matcher(response);  
+boolean rs = mat.find();
+result = 1;
+if(!rs){
+	result = 2;
+}
+
+String url = &quot;jdbc:mysql://127.0.0.1:3306/bat?user=root&amp;password=&amp;useUnicode=true&amp;characterEncoding=UTF8&quot;;
+String query = &quot;insert into bat.t_detail(caseId,apiId,requestHeader,responseHeader,responseBody,latency,result,reportId,assertContent) values(25,17,?,?,?,?,?,?,?);&quot;;
+String driver = &quot;com.mysql.jdbc.Driver&quot;;
+try {
+	c = getClass( driver ); 
+	Connection conn = DriverManager.getConnection(url);
+	PreparedStatement ps = conn.prepareStatement(query);
+	ps.setString(1,SamplerData + &quot;\r\nRequestHeaders:\n&quot; + RequestHeaders);
+	ps.setString(2,ResponseHeaders);
+	ps.setString(3,SampleResult.getResponseDataAsString());
+	ps.setString(4,SampleResult.getLatency().toString());
+	ps.setInt(5,result);
+	ps.setInt(6,1634);
+	ps.setString(7,assertStr);
+	ps.executeUpdate();
+	ps.close();
+	conn.close();
+} catch (Exception e) {
+	System.out.println(e.toString());
+}
+						</stringProp>
+						<stringProp name="BeanShellAssertion.filename"></stringProp>
+						<stringProp name="BeanShellAssertion.parameters"></stringProp>
+						<boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+					</BeanShellAssertion>
+					<hashTree/>
+									<RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="正则表达式提取器" enabled="true">
+					<stringProp name="RegexExtractor.useHeaders">false</stringProp>
+					<stringProp name="RegexExtractor.refname">castk</stringProp>
+					<stringProp name="RegexExtractor.regex">stkey&quot;:&quot;(.*)&quot;</stringProp>
+					<stringProp name="RegexExtractor.template">$1$</stringProp>
+					<stringProp name="RegexExtractor.default"></stringProp>
+					<stringProp name="RegexExtractor.match_number">1</stringProp>
+				</RegexExtractor>
+				<hashTree/>
+					
+				</hashTree>
+				<HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="DSP首页，带castk获取登录态" enabled="true">
+											<elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+							<collectionProp name="Arguments.arguments">
+								<elementProp name="castk" elementType="HTTPArgument">
+										<stringProp name="Argument.name">castk</stringProp>
+										<stringProp name="Argument.value">${castk}</stringProp>
+										<stringProp name="Argument.metadata">=</stringProp>
+										<boolProp name="HTTPArgument.always_encode">true</boolProp>
+										<boolProp name="HTTPArgument.use_equals">true</boolProp>
+									</elementProp>							</collectionProp>
+						</elementProp>					<stringProp name="HTTPSampler.domain">dsptest.baidu.com</stringProp>
+					<!-- 端口,默认80 -->
+					<stringProp name="HTTPSampler.port">8082</stringProp>
+					<!-- 连接超时时间，默认10秒 -->
+					<stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
+					<!-- 响应超时时间 -->
+					<stringProp name="HTTPSampler.response_timeout">20000</stringProp>
+					<!-- 协议类型 -->
+					<stringProp name="HTTPSampler.protocol">http</stringProp>
+					<!-- 请求参数编码类型,默认UTF8 -->
+					<stringProp name="HTTPSampler.contentEncoding"></stringProp>
+					<!-- http的path部分 -->
+					<stringProp name="HTTPSampler.path">/api/main</stringProp>
+					<!-- 请求method -->
+					<stringProp name="HTTPSampler.method">GET</stringProp>
+					<!-- 跟随重定向 -->
+					<boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+					<!-- 自动重定向 -->
+					<boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+					<!-- 长连接keepalive -->
+					<boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+					<!-- 有附件的时候才用到 -->
+					<boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+										<stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+					<boolProp name="HTTPSampler.monitor">false</boolProp>
+					<stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+				</HTTPSamplerProxy>
+				<hashTree>
+					<HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP信息头管理器" enabled="true">
+					<collectionProp name="HeaderManager.headers">
+						<elementProp name="Accept-Language" elementType="Header">
+							  <stringProp name="Header.name">Accept</stringProp>
+							  <stringProp name="Header.value">text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8</stringProp>
+							</elementProp><elementProp name="Accept-Language" elementType="Header">
+							  <stringProp name="Header.name">User-Agent</stringProp>
+							  <stringProp name="Header.value">Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36</stringProp>
+							</elementProp><elementProp name="Accept-Language" elementType="Header">
+							  <stringProp name="Header.name">Accept-Encoding</stringProp>
+							  <stringProp name="Header.value">gzip, deflate, sdch</stringProp>
+							</elementProp><elementProp name="Accept-Language" elementType="Header">
+							  <stringProp name="Header.name">Accept-Language</stringProp>
+							  <stringProp name="Header.value">zh-CN,zh;q=0.8</stringProp>
+							</elementProp>					</collectionProp>
+					</HeaderManager>
+					<hashTree/>
+										<BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="BeanShell断言" enabled="true">
+						<stringProp name="BeanShellAssertion.query">import com.mysql.jdbc.Driver; 
+import java.sql.*;  
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+response = ResponseHeaders + SampleResult.getResponseDataAsString();
+assertStr = &quot;退出&quot;;
+Pattern pat = Pattern.compile(assertStr);  
+Matcher mat = pat.matcher(response);  
+boolean rs = mat.find();
+result = 1;
+if(!rs){
+	result = 2;
+}
+
+String url = &quot;jdbc:mysql://127.0.0.1:3306/bat?user=root&amp;password=&amp;useUnicode=true&amp;characterEncoding=UTF8&quot;;
+String query = &quot;insert into bat.t_detail(caseId,apiId,requestHeader,responseHeader,responseBody,latency,result,reportId,assertContent) values(25,18,?,?,?,?,?,?,?);&quot;;
+String driver = &quot;com.mysql.jdbc.Driver&quot;;
+try {
+	c = getClass( driver ); 
+	Connection conn = DriverManager.getConnection(url);
+	PreparedStatement ps = conn.prepareStatement(query);
+	ps.setString(1,SamplerData + &quot;\r\nRequestHeaders:\n&quot; + RequestHeaders);
+	ps.setString(2,ResponseHeaders);
+	ps.setString(3,SampleResult.getResponseDataAsString());
+	ps.setString(4,SampleResult.getLatency().toString());
+	ps.setInt(5,result);
+	ps.setInt(6,1634);
+	ps.setString(7,assertStr);
+	ps.executeUpdate();
+	ps.close();
+	conn.close();
+} catch (Exception e) {
+	System.out.println(e.toString());
+}
+						</stringProp>
+						<stringProp name="BeanShellAssertion.filename"></stringProp>
+						<stringProp name="BeanShellAssertion.parameters"></stringProp>
+						<boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+					</BeanShellAssertion>
+					<hashTree/>
+										
+				</hashTree>
+<BSFSampler guiclass="TestBeanGUI" testclass="BSFSampler" testname="BSF Sampler" enabled="true">
+	<stringProp name="scriptLanguage">javascript</stringProp>
+	<stringProp name="parameters"></stringProp>
+	<stringProp name="filename"></stringProp>
+	<stringProp name="script">//格式化时间输出
+Date.prototype.Format = function (fmt) { //author: meizz 
+	var o = {
+		&quot;M+&quot;: this.getMonth() + 1, //月份 
+		&quot;d+&quot;: this.getDate(), //日 
+		&quot;H+&quot;: this.getHours(), //小时 
+		&quot;m+&quot;: this.getMinutes(), //分 
+		&quot;s+&quot;: this.getSeconds(), //秒 
+		&quot;q+&quot;: Math.floor((this.getMonth() + 3) / 3), //季度 
+		&quot;S&quot;: this.getMilliseconds() //毫秒 
+	};
+	if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + &quot;&quot;).substr(4 - RegExp.$1.length));
+	for (var k in o)
+	if (new RegExp(&quot;(&quot; + k + &quot;)&quot;).test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : ((&quot;00&quot; + o[k]).substr((&quot;&quot; + o[k]).length)));
+	return fmt;
+}
+var day30_later = new Date(new Date()-0+30*86400000).Format(&quot;yyyyMMdd&quot;);//30天以后的日期
+vars.put(&quot;end_time&quot;,day30_later);//投放结束时间1</stringProp>
+</BSFSampler>
+<hashTree/>
+				<HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="" enabled="true">
+											<elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+							<collectionProp name="Arguments.arguments">
+															</collectionProp>
+						</elementProp>					<stringProp name="HTTPSampler.domain"></stringProp>
+					<!-- 端口,默认80 -->
+					<stringProp name="HTTPSampler.port"></stringProp>
+					<!-- 连接超时时间，默认10秒 -->
+					<stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
+					<!-- 响应超时时间 -->
+					<stringProp name="HTTPSampler.response_timeout">20000</stringProp>
+					<!-- 协议类型 -->
+					<stringProp name="HTTPSampler.protocol"></stringProp>
+					<!-- 请求参数编码类型,默认UTF8 -->
+					<stringProp name="HTTPSampler.contentEncoding"></stringProp>
+					<!-- http的path部分 -->
+					<stringProp name="HTTPSampler.path"></stringProp>
+					<!-- 请求method -->
+					<stringProp name="HTTPSampler.method"></stringProp>
+					<!-- 跟随重定向 -->
+					<boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+					<!-- 自动重定向 -->
+					<boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+					<!-- 长连接keepalive -->
+					<boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+					<!-- 有附件的时候才用到 -->
+					<boolProp name="HTTPSampler.DO_MULTIPART_POST"></boolProp>
+										<stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+					<boolProp name="HTTPSampler.monitor">false</boolProp>
+					<stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+				</HTTPSamplerProxy>
+				<hashTree>
+															<BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="BeanShell断言" enabled="true">
+						<stringProp name="BeanShellAssertion.query">import com.mysql.jdbc.Driver; 
+import java.sql.*;  
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+response = ResponseHeaders + SampleResult.getResponseDataAsString();
+assertStr = &quot;\\{\&quot;message\&quot;:\\{\\},\&quot;success\&quot;:\&quot;true\&quot;,\&quot;sessionId\&quot;:\&quot;(.*)\&quot;,\&quot;result\&quot;:\\{\&quot;visitor\&quot;:\\{\&quot;id\&quot;:(\\d+),\&quot;name\&quot;:\&quot;(.*)\&quot;,\&quot;role\&quot;:\&quot;(.*)\&quot;,\&quot;type\&quot;:null\\}\\}\\}&quot;;
+Pattern pat = Pattern.compile(assertStr);  
+Matcher mat = pat.matcher(response);  
+boolean rs = mat.find();
+result = 1;
+if(!rs){
+	result = 2;
+}
+
+String url = &quot;jdbc:mysql://127.0.0.1:3306/bat?user=root&amp;password=&amp;useUnicode=true&amp;characterEncoding=UTF8&quot;;
+String query = &quot;insert into bat.t_detail(caseId,apiId,requestHeader,responseHeader,responseBody,latency,result,reportId,assertContent) values(25,,?,?,?,?,?,?,?);&quot;;
+String driver = &quot;com.mysql.jdbc.Driver&quot;;
+try {
+	c = getClass( driver ); 
+	Connection conn = DriverManager.getConnection(url);
+	PreparedStatement ps = conn.prepareStatement(query);
+	ps.setString(1,SamplerData + &quot;\r\nRequestHeaders:\n&quot; + RequestHeaders);
+	ps.setString(2,ResponseHeaders);
+	ps.setString(3,SampleResult.getResponseDataAsString());
+	ps.setString(4,SampleResult.getLatency().toString());
+	ps.setInt(5,result);
+	ps.setInt(6,1634);
+	ps.setString(7,assertStr);
+	ps.executeUpdate();
+	ps.close();
+	conn.close();
+} catch (Exception e) {
+	System.out.println(e.toString());
+}
+						</stringProp>
+						<stringProp name="BeanShellAssertion.filename"></stringProp>
+						<stringProp name="BeanShellAssertion.parameters"></stringProp>
+						<boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+					</BeanShellAssertion>
+					<hashTree/>
+									<RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="正则表达式提取器" enabled="true">
+					<stringProp name="RegexExtractor.useHeaders">false</stringProp>
+					<stringProp name="RegexExtractor.refname">userId</stringProp>
+					<stringProp name="RegexExtractor.regex">(?:id&quot;:)(\d+)(?:,)</stringProp>
+					<stringProp name="RegexExtractor.template">$1$</stringProp>
+					<stringProp name="RegexExtractor.default">${max_int}</stringProp>
+					<stringProp name="RegexExtractor.match_number">1</stringProp>
+				</RegexExtractor>
+				<hashTree/>
+					
+				</hashTree>
+				<HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="创建智能创意，无筛选条件，通用模板----output(smartId)" enabled="true">
+											<elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
+							<collectionProp name="Arguments.arguments">
+								<elementProp name="adownerId" elementType="HTTPArgument">
+										<stringProp name="Argument.name">adownerId</stringProp>
+										<stringProp name="Argument.value">${adOwnerId}</stringProp>
+										<stringProp name="Argument.metadata">=</stringProp>
+										<boolProp name="HTTPArgument.always_encode">true</boolProp>
+										<boolProp name="HTTPArgument.use_equals">true</boolProp>
+									</elementProp><elementProp name="templateId" elementType="HTTPArgument">
+										<stringProp name="Argument.name">templateId</stringProp>
+										<stringProp name="Argument.value">${smart_template}</stringProp>
+										<stringProp name="Argument.metadata">=</stringProp>
+										<boolProp name="HTTPArgument.always_encode">true</boolProp>
+										<boolProp name="HTTPArgument.use_equals">true</boolProp>
+									</elementProp><elementProp name="filter" elementType="HTTPArgument">
+										<stringProp name="Argument.name">filter</stringProp>
+										<stringProp name="Argument.value">[]</stringProp>
+										<stringProp name="Argument.metadata">=</stringProp>
+										<boolProp name="HTTPArgument.always_encode">true</boolProp>
+										<boolProp name="HTTPArgument.use_equals">true</boolProp>
+									</elementProp><elementProp name="element" elementType="HTTPArgument">
+										<stringProp name="Argument.name">element</stringProp>
+										<stringProp name="Argument.value">[{"index":1,"name":"txt_title","type":1,"value":"%7Bname%7D","editable":true,"length":50,"literal":"文本标题","urlEnable":false,"targetUrl":""},{"index":2,"name":"txt_description1","type":1,"value":"%E6%8F%8F%E8%BF%B0%E5%AD%97%E6%AE%B51","editable":true,"length":200,"literal":"描述1","urlEnable":false,"targetUrl":""},{"index":3,"name":"txt_description2","type":1,"value":"%E6%8F%8F%E8%BF%B0%E5%AD%97%E6%AE%B52","editable":true,"length":200,"literal":"描述2","urlEnable":false,"targetUrl":""}]</stringProp>
+										<stringProp name="Argument.metadata">=</stringProp>
+										<boolProp name="HTTPArgument.always_encode">true</boolProp>
+										<boolProp name="HTTPArgument.use_equals">true</boolProp>
+									</elementProp><elementProp name="sizes" elementType="HTTPArgument">
+										<stringProp name="Argument.name">sizes</stringProp>
+										<stringProp name="Argument.value">0*0</stringProp>
+										<stringProp name="Argument.metadata">=</stringProp>
+										<boolProp name="HTTPArgument.always_encode">true</boolProp>
+										<boolProp name="HTTPArgument.use_equals">true</boolProp>
+									</elementProp><elementProp name="name" elementType="HTTPArgument">
+										<stringProp name="Argument.name">name</stringProp>
+										<stringProp name="Argument.value">当你老了，白发苍苍，睡意朦胧，在炉前打盹，请取下这本诗篇，慢慢吟咏，梦见你当年的双眼，那柔美的光芒与青幽的晕影；多少人真情假意，爱过你的美丽， 爱过你欢乐而迷人的青春，唯独一人爱过你朝圣者的心，爱你日益凋谢的脸上的哀戚</stringProp>
+										<stringProp name="Argument.metadata">=</stringProp>
+										<boolProp name="HTTPArgument.always_encode">true</boolProp>
+										<boolProp name="HTTPArgument.use_equals">true</boolProp>
+									</elementProp><elementProp name="targetUrl" elementType="HTTPArgument">
+										<stringProp name="Argument.name">targetUrl</stringProp>
+										<stringProp name="Argument.value">${creativity_targetUrl}</stringProp>
+										<stringProp name="Argument.metadata">=</stringProp>
+										<boolProp name="HTTPArgument.always_encode">true</boolProp>
+										<boolProp name="HTTPArgument.use_equals">true</boolProp>
+									</elementProp><elementProp name="monitorUrl" elementType="HTTPArgument">
+										<stringProp name="Argument.name">monitorUrl</stringProp>
+										<stringProp name="Argument.value">${creativity_monitorUrl}</stringProp>
+										<stringProp name="Argument.metadata">=</stringProp>
+										<boolProp name="HTTPArgument.always_encode">true</boolProp>
+										<boolProp name="HTTPArgument.use_equals">true</boolProp>
+									</elementProp><elementProp name="mobTargetUrl" elementType="HTTPArgument">
+										<stringProp name="Argument.name">mobTargetUrl</stringProp>
+										<stringProp name="Argument.value"></stringProp>
+										<stringProp name="Argument.metadata">=</stringProp>
+										<boolProp name="HTTPArgument.always_encode">true</boolProp>
+										<boolProp name="HTTPArgument.use_equals">true</boolProp>
+									</elementProp><elementProp name="mobMonitorUrl" elementType="HTTPArgument">
+										<stringProp name="Argument.name">mobMonitorUrl</stringProp>
+										<stringProp name="Argument.value"></stringProp>
+										<stringProp name="Argument.metadata">=</stringProp>
+										<boolProp name="HTTPArgument.always_encode">true</boolProp>
+										<boolProp name="HTTPArgument.use_equals">true</boolProp>
+									</elementProp>							</collectionProp>
+						</elementProp>					<stringProp name="HTTPSampler.domain">${dsp_host}</stringProp>
+					<!-- 端口,默认80 -->
+					<stringProp name="HTTPSampler.port">${dsp_port}</stringProp>
+					<!-- 连接超时时间，默认10秒 -->
+					<stringProp name="HTTPSampler.connect_timeout">20000</stringProp>
+					<!-- 响应超时时间 -->
+					<stringProp name="HTTPSampler.response_timeout">20000</stringProp>
+					<!-- 协议类型 -->
+					<stringProp name="HTTPSampler.protocol">http</stringProp>
+					<!-- 请求参数编码类型,默认UTF8 -->
+					<stringProp name="HTTPSampler.contentEncoding"></stringProp>
+					<!-- http的path部分 -->
+					<stringProp name="HTTPSampler.path">/api/smartCreativity</stringProp>
+					<!-- 请求method -->
+					<stringProp name="HTTPSampler.method">POST</stringProp>
+					<!-- 跟随重定向 -->
+					<boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+					<!-- 自动重定向 -->
+					<boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+					<!-- 长连接keepalive -->
+					<boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+					<!-- 有附件的时候才用到 -->
+					<boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+										<stringProp name="HTTPSampler.implementation">HttpClient4</stringProp>
+					<boolProp name="HTTPSampler.monitor">false</boolProp>
+					<stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+				</HTTPSamplerProxy>
+				<hashTree>
+					<HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP信息头管理器" enabled="true">
+					<collectionProp name="HeaderManager.headers">
+						<elementProp name="Accept-Language" elementType="Header">
+							  <stringProp name="Header.name">User-Agent</stringProp>
+							  <stringProp name="Header.value">Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36</stringProp>
+							</elementProp><elementProp name="Accept-Language" elementType="Header">
+							  <stringProp name="Header.name">Content-Type</stringProp>
+							  <stringProp name="Header.value">application/x-www-form-urlencoded</stringProp>
+							</elementProp><elementProp name="Accept-Language" elementType="Header">
+							  <stringProp name="Header.name">Accept</stringProp>
+							  <stringProp name="Header.value">*/*</stringProp>
+							</elementProp><elementProp name="Accept-Language" elementType="Header">
+							  <stringProp name="Header.name">Accept-Encoding</stringProp>
+							  <stringProp name="Header.value">gzip, deflate</stringProp>
+							</elementProp><elementProp name="Accept-Language" elementType="Header">
+							  <stringProp name="Header.name">Accept-Language</stringProp>
+							  <stringProp name="Header.value">zh-CN,zh;q=0.8</stringProp>
+							</elementProp>					</collectionProp>
+					</HeaderManager>
+					<hashTree/>
+										<BeanShellAssertion guiclass="BeanShellAssertionGui" testclass="BeanShellAssertion" testname="BeanShell断言" enabled="true">
+						<stringProp name="BeanShellAssertion.query">import com.mysql.jdbc.Driver; 
+import java.sql.*;  
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+response = ResponseHeaders + SampleResult.getResponseDataAsString();
+assertStr = &quot;\\{\&quot;message\&quot;:\\{\&quot;field\&quot;:\\{\&quot;name\&quot;:\&quot;smart.name.tooLong\&quot;\\}\\},\&quot;sessionId\&quot;:\&quot;(.*)\&quot;,\&quot;status\&quot;:2000,\&quot;success\&quot;:\&quot;false\&quot;\\}&quot;;
+Pattern pat = Pattern.compile(assertStr);  
+Matcher mat = pat.matcher(response);  
+boolean rs = mat.find();
+result = 1;
+if(!rs){
+	result = 2;
+}
+
+String url = &quot;jdbc:mysql://127.0.0.1:3306/bat?user=root&amp;password=&amp;useUnicode=true&amp;characterEncoding=UTF8&quot;;
+String query = &quot;insert into bat.t_detail(caseId,apiId,requestHeader,responseHeader,responseBody,latency,result,reportId,assertContent) values(2,154,?,?,?,?,?,?,?);&quot;;
+String driver = &quot;com.mysql.jdbc.Driver&quot;;
+try {
+	c = getClass( driver ); 
+	Connection conn = DriverManager.getConnection(url);
+	PreparedStatement ps = conn.prepareStatement(query);
+	ps.setString(1,SamplerData + &quot;\r\nRequestHeaders:\n&quot; + RequestHeaders);
+	ps.setString(2,ResponseHeaders);
+	ps.setString(3,SampleResult.getResponseDataAsString());
+	ps.setString(4,SampleResult.getLatency().toString());
+	ps.setInt(5,result);
+	ps.setInt(6,1634);
+	ps.setString(7,assertStr);
+	ps.executeUpdate();
+	ps.close();
+	conn.close();
+} catch (Exception e) {
+	System.out.println(e.toString());
+}
+						</stringProp>
+						<stringProp name="BeanShellAssertion.filename"></stringProp>
+						<stringProp name="BeanShellAssertion.parameters"></stringProp>
+						<boolProp name="BeanShellAssertion.resetInterpreter">false</boolProp>
+					</BeanShellAssertion>
+					<hashTree/>
+										
+				</hashTree>
+			</hashTree>
+
+		</hashTree>
+	</hashTree>
+</jmeterTestPlan>

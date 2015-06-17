@@ -1,0 +1,6 @@
+[ 2015-06-11T16:44:06+08:00 ] ERR: (ThinkException) 由于目标计算机积极拒绝，无法连接。
+
+[ 2015-06-11T16:45:16+08:00 ] ERR: (ThinkException) Unknown database 'bat'
+[ 2015-06-11T16:46:10+08:00 ] ERR: (ThinkException) Unknown database 'bat'
+[ 2015-06-11T16:46:35+08:00 ] ERR: (ThinkException) Unknown database 'bat'
+[ 2015-06-11T16:47:49+08:00 ] ERR: (ThinkException) Unknown database 'bat'
