@@ -64,41 +64,99 @@ function editTreeNode(){
 
 var zTree, rMenu;
 $(document).ready(function(){
+    //提交新增操作
+    $("#module_add_form").submit(doAdd);
+
+    //修改模块操作
+    $("#module_update").click(function(){
+        var check_num = $(".selectCell:checked").length;
+        if (check_num > 1){
+            showError("一次只能修改一条记录！");
+            return false;
+        }
+
+        if (check_num < 1){
+            showInfo("请选择需要修改的记录！");
+            return false;
+        }
+
+        var id = $(".selectCell:checked").attr("value");
+        redirect("/Module/update?id=" + id);
+    });
+    //修改模块提交表单
+    $("#module_update_form").submit(doUpdate);
+    //删除module
+    $("#module_delete").click(function(){
+        var checked_num = $(".selectCell:checked").length;
+        if (checked_num < 1) {
+            showInfo("请选择需要删除的记录！");
+            return false;
+        };
+
+        showError("该操作不可逆，你确认要删除这些记录吗？");
+
+        $("#error_conform").click(function(){
+            $('#error').modal('hide');
+            var ids = new Array();
+            $(".selectCell:checked").each(function(){
+                id = $(this).attr("value");
+                ids.push(id);
+            });
+            $.ajax({
+                type: "post",
+                url: URL + "/delete",
+                data: "ids=" + ids,
+                success:function (result) {
+                    status = result.status;
+                    if(status == 10001){
+                        redirect('/Login/login');
+                    }
+                    if (status == "success:true") {
+                        location.reload();
+                    }
+                    if(status == 'success:false'){
+                        showError(result.info);
+                        return false;
+                    }
+                },
+            });
+        });
+    });
+
+    $.ajax({
+        type: "get",
+        url: APP + "/Module/mlist",
+        data: "pid=0",
+        success:function (result) {
+            status = result.status;
+            if(status == 10001){
+                redirect('/Login/login');
+            }
+            if (status == "success:true") {
+                zNodes = $.parseJSON(result.data);
+                $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+                zTree = $.fn.zTree.getZTreeObj("treeDemo");
+                rMenu = $("#rMenu");
+            }
+        }
+    });
+    var setting = {
+        view: {
+            dblClickExpand: false
+        },
+        check: {
+            enable: false
+        },
+        callback: {
+            onRightClick: OnRightClick
+        }
+    };
     //初始化select控件
     $("#addedApps").select2({
         placeholder: "Select App(s)",
         allowClear: true
     });
-    //提交新增操作
-    $("#module_add_form").submit(doAdd);
-	var setting = {
-		view: {
-			dblClickExpand: false
-		},
-		check: {
-			enable: true
-		},
-		callback: {
-			onRightClick: OnRightClick
-		}
-	};
-	$.ajax({
-		 type: "get",
-	     url: APP + "/Module/mlist",
-	     data: "pid=0",
-	     success:function (result) {
-	     	status = result.status;
-	     	if(status == 10001){
-	     		redirect('/Login/login');
-	     	}
-	     	if (status == "success:true") {
-	     		zNodes = $.parseJSON(result.data);
-				$.fn.zTree.init($("#treeDemo"), setting, zNodes);
-				zTree = $.fn.zTree.getZTreeObj("treeDemo");
-				rMenu = $("#rMenu");
-	     	}
-	     }
-	});
+
 });
 //新增module到数据库
 var doAdd = function(){
@@ -121,6 +179,28 @@ var doAdd = function(){
             }
             if(status == "success:false"){
                 console.info(status);
+                showInfo(result.info);
+            }
+        }
+    });
+    return false;
+}
+
+//更新module到数据库
+function doUpdate(){
+    $.ajax({
+        type:"post",
+        url:URL + "/doUpdate",
+        data:$('#module_update_form').serialize(),
+        success:function(result){
+            status = result.status;
+            if(status == 10001){
+                redirect('/Login/login');
+            }
+            if(status == "success:true"){
+                redirect('/Module/mlist');
+            }
+            if(status == 'success:false'){
                 showInfo(result.info);
             }
         }
