@@ -97,11 +97,11 @@ class ModuleAction extends CommonAction{
         $condition['name'] = $ret['name'];
         $addAppsNum = D('Module')->where($condition)->count();
         if($addAppsNum > 1){
-            $ret["addedApp"] = array();
+            $ret["apps"] = array();
             $modules = D('Module')->where($condition)->select();
             foreach ($modules as $module) {
                 $app = D('App')->getById($module['appId']);
-                array_push($ret["addedApp"], $app["appName"]);
+                array_push($ret["apps"], $app["appName"]);
             }
         }
         $this->assign('module',$ret);
@@ -137,13 +137,13 @@ class ModuleAction extends CommonAction{
         $defaultAppId=D('App')->getIdByAppName($_POST['defaultApp']);
         $module['appId'] = $defaultAppId;
         $module['addedApps'] = $_POST['addedApps'];
-        $apps = explode(' ',$module['addedApps']);
+        $apps = explode(' ',trim($module['addedApps']));
         $temp = D('Module')->checkDuplicate($module);
         if (!empty($temp)) {
             $this->ajaxReturn(0, "已经有相同的module存在，不允许重复录入", "success:false");
         }
         //执行更新,先删后加
-        $condition['name'] = $module['name'];
+        $condition['name'] = D('Module')->getModuleNameByModuleId($module['id']);
         $temp = D('Module')->where($condition)->delete();
         if ($temp == false) {
             $this->ajaxReturn(0,"更新失败", "success:false");
@@ -153,16 +153,18 @@ class ModuleAction extends CommonAction{
             $this->ajaxReturn(0, "更新模块数据失败！", "success:false");
         }
         foreach($apps as $app){
-            $data['name'] = $module['name'];
-            $data['desc'] = $module['desc'];
-            $data['appId'] = D('App')->getIdByAppName($app);
-            $temp = D('Module')->checkDuplicate($data);
-            if (!empty($temp)) {
-                $this->ajaxReturn(0, "已经有相同的module存在，不允许重复录入", "success:false");
-            }
-            $ret = D('Module')->add($data);
-            if (!$ret) {
-                $this->ajaxReturn(0, "更新模块数据失败！", "success:false");
+            if($app != $_POST['defaultApp']) {
+                $data['name'] = $module['name'];
+                $data['desc'] = $module['desc'];
+                $data['appId'] = D('App')->getIdByAppName($app);
+                $temp = D('Module')->checkDuplicate($data);
+                if (!empty($temp)) {
+                    $this->ajaxReturn(0, "已经有相同的module存在，不允许重复录入", "success:false");
+                }
+                $ret = D('Module')->add($data);
+                if (!$ret) {
+                    $this->ajaxReturn(0, "更新模块数据失败！", "success:false");
+                }
             }
         }
         $this->ajaxReturn($ret, "成功更新模块数据！", "success:true");
