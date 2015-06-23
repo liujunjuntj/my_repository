@@ -38,9 +38,9 @@
                 <div class="control-group span6">
                     <label class="control-label">关联App：</label>
                     <div class="controls">
-                        <select name="addedApps" id="addedApps" class="populate placeholder form-control span11" multiple>
+                        <select name="addedApps" id="addedApps" class="populate placeholder form-control span10" multiple>
                             <volist name="allApps" id="app">
-                                <in name="app.appName" value="$module.apps">
+                                <in name="app.appName" value="$module.addedApp">
                                     <option selected>{$app.appName}</option>
                                     <else/><option>{$app.appName}</option>
                                 </in>

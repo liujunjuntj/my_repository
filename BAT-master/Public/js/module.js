@@ -118,7 +118,7 @@ $(document).ready(function(){
                         showError(result.info);
                         return false;
                     }
-                }
+                },
             });
         });
     });
@@ -184,32 +184,27 @@ var doAdd = function(){
         }
     });
     return false;
-};
+}
 
 //更新module到数据库
-var doUpdate = function(){
-    var apps = " ";
-    var obj = $("#addedApps").find("option:selected");
-    for(var i=0; i<obj.length-1; i++){
-        apps += obj[i].value + " ";
-    }
+function doUpdate(){
     $.ajax({
         type:"post",
         url:URL + "/doUpdate",
-        data:$('#module_update_form').serialize() + apps,
+        data:$('#module_update_form').serialize(),
         success:function(result){
             status = result.status;
             if(status == 10001){
                 redirect('/Login/login');
             }
-            if(status == "success:true") {
+            if(status == "success:true"){
                 redirect('/Module/mlist');
             }
-            if(status == "success:false"){
-                console.info(status);
+            if(status == 'success:false'){
                 showInfo(result.info);
             }
         }
     });
     return false;
-};
+}
+
