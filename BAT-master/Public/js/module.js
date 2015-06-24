@@ -188,10 +188,15 @@ var doAdd = function(){
 
 //更新module到数据库
 function doUpdate(){
+    var apps = " ";
+    var obj = $("#addedApps").find("option:selected");
+    for(var i=0; i<obj.length-1; i++){
+        apps += obj[i].value + " ";
+    }
     $.ajax({
         type:"post",
         url:URL + "/doUpdate",
-        data:$('#module_update_form').serialize(),
+        data:$('#module_update_form').serialize() + apps,
         success:function(result){
             status = result.status;
             if(status == 10001){
