@@ -113,7 +113,13 @@ class ModuleAction extends CommonAction{
         $this->assign('allApps',$apps);
 
         //根据当前用户id查询相关app信息
-        $this->assign("currentApp",$_SESSION["appName"]);
+        $userId = $_SESSION["uid"];
+        $appRet = D('User')->getById($userId);
+        if (empty($appRet)) {
+            $this->error("ID=".$id."对应的User不存在！！！","mlist",2);
+        }
+        $defaultApp = D('App')->getAppNameByAppId($appRet["defaultApp"]);
+        $this->assign("userDefaultApp",$defaultApp);
 
         $this->display();
     }
