@@ -49,12 +49,13 @@ class ModuleAction extends CommonAction{
         $currnet_appId=D('App')->getIdByAppName(session('appName'));
         //默认App插入module
         $data['name'] = $module['name'];
-        $data['desc'] = $module['desc'];
+        $data['status'] = array('EQ', 1);
         $data['appId'] = $currnet_appId;
         $temp = D('Module')->checkDuplicate($data);
         if (!empty($temp)) {
             $this->ajaxReturn(0,session('appName')."下已有同名的模块，不允许重复录入", "success:false");
         }
+        $data['desc'] = $module['desc'];
         $ret = D('Module')->add($data);
         if (!$ret) {
             $this->ajaxReturn(0, "新增模块数据失败！", "success:false");
@@ -96,25 +97,10 @@ class ModuleAction extends CommonAction{
         if(empty($ret)){
             $this->error("ID" . $id . "对应的Module不存在！！！", "mlist", 2);
         }
-        $condition['name'] = $ret['name'];
-        $addAppsNum = D('Module')->where($condition)->count();
-        if($addAppsNum > 1){
-            $ret["addedApp"] = array();
-            $modules = D('Module')->where($condition)->select();
-            foreach ($modules as $module) {
-                $app = D('App')->getById($module['appId']);
-                array_push($ret["addedApp"], $app["appName"]);
-            }
-        }
         $this->assign('module',$ret);
-
-        //获得全部app信息
-        $apps = D('App')->getAllApps();
-        $this->assign('allApps',$apps);
 
         //根据当前用户id查询相关app信息
         $this->assign("currentApp",$_SESSION['appName']);
-
         $this->display();
     }
 
@@ -130,62 +116,60 @@ class ModuleAction extends CommonAction{
         //判断传入参数是否符合格式
         $module = D('Module')->checkModule($module);
 
-        $defaultAppId = $_SESSION['appId'];
-        $defaultAppName = $_SESSION['appName'];
-        $module['appId'] = $defaultAppId;
-        $module['addedApps'] = $_POST['addedApps'];
-        $apps = explode(' ',trim($module['addedApps']));
-        $temp = D('Module')->checkDuplicate($module);
+        $module['appId'] = $_SESSION['appId'];;
+
+        //查重条件
+        $condition['id'] = array('NEQ', $module['id']);
+        $condition['name'] = $module['name'];
+        $condition['appId'] = $module['appId'];
+        $condition['status'] = array('EQ', 1);
+        $temp = D('Module')->checkDuplicate($condition);
         if (!empty($temp)) {
             $this->ajaxReturn(0, "已经有相同的module存在，不允许重复录入", "success:false");
         }
-        //执行更新,先删后加
-        $condition['name'] = D('Module')->getModuleNameByModuleId($module['id']);
-        $temp = D('Module')->where($condition)->delete();
+
+        //执行更新
+        $data['status'] = C('INVALID');
+        $where['id'] = $module['id'];
+        $temp = D('Module')->where($where)->save($module);
         if ($temp == false) {
             $this->ajaxReturn(0,"更新失败", "success:false");
         }
-        $ret = D('Module')->add($module);
-        if (!$ret) {
-            $this->ajaxReturn(0, "更新模块数据失败！", "success:false");
-        }
-        foreach($apps as $app){
-            if($app != $defaultAppName) {
-                $data['name'] = $module['name'];
-                $data['desc'] = $module['desc'];
-                $data['appId'] = D('App')->getIdByAppName($app);
-                $temp = D('Module')->checkDuplicate($data);
-                if (!empty($temp)) {
-                    $this->ajaxReturn(0, "已经有相同的module存在，不允许重复录入", "success:false");
-                }
-                $ret = D('Module')->add($data);
-                if (!$ret) {
-                    $this->ajaxReturn(0, "更新模块数据失败！", "success:false");
-                }
-            }
-        }
-        $this->ajaxReturn($ret, "成功更新模块数据！", "success:true");
+        $this->ajaxReturn($temp, "成功更新模块数据！", "success:true");
     }
 
     /**
-     * 删除module
+     * 删除module--软删除
      */
     public function delete(){
-        $ids = $this->_post('ids');
+        $id = $this->_post('ids');
+        $ids = explode(",", $id);
         if (empty($ids)) {
-            $this->ajaxReturn(0,"请选择待删除的Module。","success:false");
+            $this->ajaxReturn(0, "请选择待删除的Module。", "success:false");
         }
 
-        $names = array();
-        $ids = explode(',', $ids);
-        foreach($ids as $id){
-            array_push($names, D('Module')->getModuleNameByModuleId($id));
+        $condition['status'] = C('VALID');
+        $condition['appId'] = $_SESSION['appId'];
+        $condition['userId'] = $_SESSION['uid'];
+        foreach( $ids as $id ) {
+            //查找模块下的api和用例
+            $condition['mid'] = $id;
+
+            $apis = D('Api')->where($condition)->getField('id', true);
+            $cases = D('Case')->where($condition)->getField('id', true);
+
+            if(!empty($apis) || !empty($cases)){
+                $this->ajaxReturn($id, "删除模块[$id]失败,该模块下有api或者用例！","success:false");
+            }
+
+            //删除模块
+            $where['id'] = $id;
+            $data['status'] = C('INVALID');
+            $ret = D('Module')->where($where)->save($data);
+            if (empty($ret)) {
+                $this->ajaxReturn($ret, "删除Module失败！", "success:false");
+            }
         }
-        $condition["name"] = array("in", $names);
-        $ret = D('Module')->where($condition)->delete();
-        if (empty($ret)) {
-            $this->ajaxReturn($ret,"删除Module失败！","success:false");
-        }
-        $this->ajaxReturn($ret,"成功删除Module。","success:true");
+        $this->ajaxReturn(null, "成功删除Module。", "success:true");
     }
 }

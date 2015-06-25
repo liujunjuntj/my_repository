@@ -86,6 +86,7 @@ $(document).ready(function(){
     //修改模块提交表单
     $("#module_update_form").submit(doUpdate);
     //删除module
+    //$("#module_delete").removeAttr('disabled', 'true');
     $("#module_delete").click(function(){
         var checked_num = $(".selectCell:checked").length;
         if (checked_num < 1) {
@@ -115,10 +116,9 @@ $(document).ready(function(){
                         location.reload();
                     }
                     if(status == 'success:false'){
-                        showError(result.info);
-                        return false;
+                        showInfo(result.info);
                     }
-                },
+                }
             });
         });
     });
