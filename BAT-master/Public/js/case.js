@@ -233,38 +233,60 @@ var getTmpl = function(action,params){
 }
 
 var getCaseDetails = function(action){
-	if(false == checkApiNextToAssert()){
-		return false;
-	}
-	step = {};data = {};
-	summary = formToJson($("#case_summary"));
-	//TODO稍后请添加前端对测试用例数据的验证
-	$(".accordion-group").each(function(i){
-		step[i] = formToJson($(this));
-	});
-	data['summary'] = summary;
-	data['steps'] = step;
-	if(action == 'doAdd'){
-		param = {caseData:JSON.stringify(data)};
-	}
-	if(action == 'doUpdate'){
-		id = $("#update_case_id").val();
-		param = {caseData:JSON.stringify(data),id:id};
-	}
-	$.post(URL + "/" + action,param)
-	.success(function(result){
-		status = result.status;
-    	if(status == 10001){
-    		redirect('/Login/login');
-    	}
-		if(status == 'success:true'){
-			redirect('/Case/clist');
-		}
-		if(status == 'success:false'){
-			showInfo(result.info);
-		}
-		
-	});
+    if(false == checkApiNextToAssert()){
+        return false;
+    }
+    step = {};data = {};
+    summary = formToJson($("#case_summary"));
+    assert = {};
+    thisOne = $(this);
+
+    //TODO稍后请添加前端对测试用例数据的验证
+    $(".accordion-group").each(function(i){
+        className = $(this).attr('class');
+        if(className == 'accordion-group assert'){
+            assertType = $(this).find("input[name=assert_type]:checked").val();lala
+            if(assertType == 2){
+                assert = "(.*)";
+                $(this, ".assert_tr").each(function(j){
+                    assert += '("?)' + $(this).find("[name=assert_key]")[j]['value'] + '("?)' + ':("?)' + $(this, "[name=assert_value]")[j]['value'] + '("?)(.*)';
+                });
+            }
+            else{
+                assert = $(this).find(".assert_text[name=assert]").val();
+            }
+            step[i] = {};
+            step[i]['type'] = "2";
+            step[i]['assert'] = assert;
+            assert = {};
+        }
+        else{
+            step[i] = formToJson($(this));
+        }
+    });
+    data['summary'] = summary;
+    data['steps'] = step;
+    if(action == 'doAdd'){
+        param = {caseData:JSON.stringify(data)};
+    }
+    if(action == 'doUpdate'){
+        id = $("#update_case_id").val();
+        param = {caseData:JSON.stringify(data),id:id};
+    }
+    $.post(URL + "/" + action,param)
+        .success(function(result){
+            status = result.status;
+            if(status == 10001){
+                redirect('/Login/login');
+            }
+            if(status == 'success:true'){
+                redirect('/Case/clist');
+            }
+            if(status == 'success:false'){
+                showInfo(result.info);
+            }
+
+        });
 }
 
 var formToJson = function(obj){
