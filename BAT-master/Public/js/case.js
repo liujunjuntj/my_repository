@@ -189,7 +189,7 @@ var deleteCase = function(){
         });	
 	});
 }
-
+var assertCount=0;
 //获取模版的通用方法
 var getTmpl = function(action,params){
 	$.ajax({
@@ -205,6 +205,14 @@ var getTmpl = function(action,params){
 				showError(result.info);
 				return false;
 			}
+            //如果添加断言，需要修改html文件中assert_type的内容
+            if(action == 'assert'){
+                result.data = result.data.replace(/assert_type/g, "assert_type_"+assertCount);
+                result.data = result.data.replace(/assert_rule/g, "assert_rule_"+assertCount);
+                result.data = result.data.replace(/assert_full/g, "assert_full_"+assertCount);
+                assertCount++;
+            }
+
 			$("#accordion").append(result.data);
 			$('.modal').modal('hide');
 			//绑定删除按钮事件
@@ -245,7 +253,7 @@ var getCaseDetails = function(action){
     $(".accordion-group").each(function(i){
         className = $(this).attr('class');
         if(className == 'accordion-group assert'){
-            assertType = $(this).find("input[name=assert_type]:checked").val();lala
+            assertType = $(this).find("input[name^=assert_type_]:checked").val();
             if(assertType == 2){
                 assert = "(.*)";
                 $(this, ".assert_tr").each(function(j){
