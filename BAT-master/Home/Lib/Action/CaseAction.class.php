@@ -146,8 +146,6 @@ class CaseAction extends CommonAction {
                 $steps .= $this->tpl('Component:http', $content);
             }
             if ($step['type'] == CaseModel::ASSERT) {
-                $assert = D('Assert')->getByStepId($content['id']);
-                $content['assert'] = empty($assert[0]) ? '' : implode(',', $assert[0]);
                 $steps .= $this->tpl('Component:assert', $content);
             }
             if ($step['type'] == CaseModel::REGEX) {

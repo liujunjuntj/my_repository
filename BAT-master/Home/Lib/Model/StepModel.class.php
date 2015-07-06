@@ -1,15 +1,5 @@
 <?php
 class StepModel extends CommonRelationModel{
-
-    protected $_link = array(
-        'Assert' => array(
-            'mapping_type'=>BELONGS_TO,
-            'class_name'=>'Assert',
-            'foreign_key'=>'id',
-            'mapping_name'=>'content',
-        ),
-    );
-	
 	/**
 	 * 提供给case模块的查询方法
 	 * @param 查询的关键词 $key
