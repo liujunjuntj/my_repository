@@ -79,6 +79,15 @@ $(document).ready(function(){
 			return;
 		}
 	});
+
+    $("input[name^=assert_radio_type]").each(function(){
+        var i = $(this).attr("name").split("_")[3];
+        if($(this).val() == $("input[name=assertType_" +i+"]").val()){
+            $(this).attr("checked",true);
+            return;
+        }
+    });
+
 });
 
 
@@ -256,8 +265,8 @@ var getCaseDetails = function(action){
             assertType = $(this).find("input[name^=assert_type_]:checked").val();
             if(assertType == 2){
                 assert = "(.*)";
-                $(this, ".assert_tr").each(function(j){
-                    assert += '("?)' + $(this).find("[name=assert_key]")[j]['value'] + '("?)' + ':("?)' + $(this, "[name=assert_value]")[j]['value'] + '("?)(.*)';
+                $(this).find(".assert_tr").each(function(j){
+                    assert += '("?)' + $(this).find("[name=assert_key]").val() + '("?)' + ':("?)' + $(this).find("[name=assert_value]").val() + '("?)(.*)';
                 });
             }
             else{
@@ -265,8 +274,8 @@ var getCaseDetails = function(action){
             }
             step[i] = {};
             step[i]['type'] = "2";
+            step[i]['assertType'] = assertType;
             step[i]['assert'] = assert;
-            assert = {};
         }
         else{
             step[i] = formToJson($(this));

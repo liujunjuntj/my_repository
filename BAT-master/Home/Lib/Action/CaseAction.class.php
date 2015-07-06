@@ -146,7 +146,9 @@ class CaseAction extends CommonAction {
                 $steps .= $this->tpl('Component:http', $content);
             }
             if ($step['type'] == CaseModel::ASSERT) {
-                $steps .= $this->tpl('Component:assert', $content);
+                $assertPage = $this->tpl('Component:assert', $content);
+                $assertPage = str_replace("assert_radio_type", "assert_radio_type_".$index, $assertPage);
+                $steps .= str_replace("assertType", "assertType_".$index, $assertPage);
             }
             if ($step['type'] == CaseModel::REGEX) {
                 $steps .= $this->tpl('Component:regex', $content);
