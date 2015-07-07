@@ -1,6 +1,5 @@
 <?php
-class StepModel extends Model{
-	
+class StepModel extends CommonRelationModel{
 	/**
 	 * 提供给case模块的查询方法
 	 * @param 查询的关键词 $key
