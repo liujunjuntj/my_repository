@@ -46,7 +46,7 @@ $(document).ready(function(){
 	});
 	//更新case
 	$("#update_save_btn").click(function(){
-		getCaseDetails("doUpdate");
+        getCaseDetails("doUpdate");
 	});
 	
 	//执行case
@@ -79,6 +79,25 @@ $(document).ready(function(){
 			return;
 		}
 	});
+
+    $("input[name^=assert_type]").each(function(){
+        var i = $(this).attr("name").split("_")[2];
+        if($(this).val() == $("input[name=assertType_" +i+"]").val()){
+            $(this).attr("checked",true);
+            switch ($(this).attr("class")) {
+                case "assert_full_"+i:
+                    $("div[name=assert_full_" + i + "]").show();
+                    $("div[name=assert_rule_" + i + "]").hide();
+                    break;
+                case "assert_rule_"+i:
+                    $("div[name=assert_full_" + i + "]").hide();
+                    $("div[name=assert_rule_" + i + "]").show();
+                    break;
+            }
+            return;
+        }
+    });
+
 });
 
 
@@ -189,7 +208,7 @@ var deleteCase = function(){
         });	
 	});
 }
-
+var assertCount=0;
 //获取模版的通用方法
 var getTmpl = function(action,params){
 	$.ajax({
@@ -205,6 +224,14 @@ var getTmpl = function(action,params){
 				showError(result.info);
 				return false;
 			}
+            //如果添加断言，需要修改html文件中assert_type的内容
+            if(action == 'assert'){
+                result.data = result.data.replace(/assert_type/g, "assert_type_"+assertCount);
+                result.data = result.data.replace(/assert_rule/g, "assert_rule_"+assertCount);
+                result.data = result.data.replace(/assert_full/g, "assert_full_"+assertCount);
+                assertCount++;
+            }
+
 			$("#accordion").append(result.data);
 			$('.modal').modal('hide');
 			//绑定删除按钮事件
@@ -233,38 +260,65 @@ var getTmpl = function(action,params){
 }
 
 var getCaseDetails = function(action){
-	if(false == checkApiNextToAssert()){
-		return false;
-	}
-	step = {};data = {};
-	summary = formToJson($("#case_summary"));
-	//TODO稍后请添加前端对测试用例数据的验证
-	$(".accordion-group").each(function(i){
-		step[i] = formToJson($(this));
-	});
-	data['summary'] = summary;
-	data['steps'] = step;
-	if(action == 'doAdd'){
-		param = {caseData:JSON.stringify(data)};
-	}
-	if(action == 'doUpdate'){
-		id = $("#update_case_id").val();
-		param = {caseData:JSON.stringify(data),id:id};
-	}
-	$.post(URL + "/" + action,param)
-	.success(function(result){
-		status = result.status;
-    	if(status == 10001){
-    		redirect('/Login/login');
-    	}
-		if(status == 'success:true'){
-			redirect('/Case/clist');
-		}
-		if(status == 'success:false'){
-			showInfo(result.info);
-		}
-		
-	});
+    if(false == checkApiNextToAssert()){
+        return false;
+    }
+
+    if(!assertNotNull()){
+        return false;
+    }
+
+    step = {};data = {};
+    summary = formToJson($("#case_summary"));
+    assert = {};
+    thisOne = $(this);
+
+    //TODO稍后请添加前端对测试用例数据的验证
+    $(".accordion-group").each(function(i){
+        className = $(this).attr('class');
+        if(className == 'accordion-group assert'){
+            assertType = $(this).find("input[name^=assert_type_]:checked").val();
+            if(assertType == 2){
+                assert = "(.*)";
+                $(this).find(".assert_tr").each(function(j){
+                    assert += '("?)' + $(this).find("[name=assert_key]").val() + '("?)' + ':("?)' + $(this).find("[name=assert_value]").val() + '("?)(.*)';
+                });
+            }
+            else{
+                assert = $(this).find(".assert_text[name=assert]").val();
+            }
+            step[i] = {};
+            step[i]['type'] = "2";
+            step[i]['assertType'] = assertType;
+            step[i]['assert'] = assert;
+        }
+        else{
+            step[i] = formToJson($(this));
+        }
+    });
+    data['summary'] = summary;
+    data['steps'] = step;
+    if(action == 'doAdd'){
+        param = {caseData:JSON.stringify(data)};
+    }
+    if(action == 'doUpdate'){
+        id = $("#update_case_id").val();
+        param = {caseData:JSON.stringify(data),id:id};
+    }
+    $.post(URL + "/" + action,param)
+        .success(function(result){
+            status = result.status;
+            if(status == 10001){
+                redirect('/Login/login');
+            }
+            if(status == 'success:true'){
+                redirect('/Case/clist');
+            }
+            if(status == 'success:false'){
+                showInfo(result.info);
+            }
+
+        });
 }
 
 var formToJson = function(obj){
@@ -323,6 +377,18 @@ var checkApiNextToAssert = function(){
 		}
 	});
 	return result;
+}
+
+var assertNotNull = function(){
+    result = true;
+    $(".assert_text[name=assert_key],.assert_text[name=assert_value]").each(function(){
+            if($(this).val() == ""){
+                showError('断言描述不完整，请补充完整，谢谢！');
+                result = false;
+                return false;
+            }
+    });
+    return result;
 }
 
 var executeCase = function(){
