@@ -46,7 +46,7 @@ $(document).ready(function(){
 	});
 	//更新case
 	$("#update_save_btn").click(function(){
-		getCaseDetails("doUpdate");
+        getCaseDetails("doUpdate");
 	});
 	
 	//执行case
@@ -84,6 +84,16 @@ $(document).ready(function(){
         var i = $(this).attr("name").split("_")[2];
         if($(this).val() == $("input[name=assertType_" +i+"]").val()){
             $(this).attr("checked",true);
+            switch ($(this).attr("class")) {
+                case "assert_full_"+i:
+                    $("div[name=assert_full_" + i + "]").show();
+                    $("div[name=assert_rule_" + i + "]").hide();
+                    break;
+                case "assert_rule_"+i:
+                    $("div[name=assert_full_" + i + "]").hide();
+                    $("div[name=assert_rule_" + i + "]").show();
+                    break;
+            }
             return;
         }
     });
@@ -253,6 +263,11 @@ var getCaseDetails = function(action){
     if(false == checkApiNextToAssert()){
         return false;
     }
+
+    if(!assertNotNull()){
+        return false;
+    }
+
     step = {};data = {};
     summary = formToJson($("#case_summary"));
     assert = {};
@@ -362,6 +377,18 @@ var checkApiNextToAssert = function(){
 		}
 	});
 	return result;
+}
+
+var assertNotNull = function(){
+    result = true;
+    $(".assert_text[name=assert_key],.assert_text[name=assert_value]").each(function(){
+            if($(this).val() == ""){
+                showError('断言描述不完整，请补充完整，谢谢！');
+                result = false;
+                return false;
+            }
+    });
+    return result;
 }
 
 var executeCase = function(){
