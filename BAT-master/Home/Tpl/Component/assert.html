@@ -17,8 +17,8 @@
                 <label class="control-label"><i class="required">*</i>断言内容：</label>
                 <div class="controls">
                     <input type="hidden" name="assertType" value="{$step.assertType}">
-                    <label class="radio inline">完整正则<input name="assert_radio_type" checked = checked class="assert_full" type="radio" value="1" ></label>
-                    <label class="radio inline">键值对规则<input name="assert_radio_type" class ="assert_rule" type="radio" value="2"></label>
+                    <label class="radio inline">完整正则<input name="assert_type" checked = checked class="assert_full" type="radio" value="1" ></label>
+                    <label class="radio inline">键值对规则<input name="assert_type" class ="assert_rule" type="radio" value="2"></label>
                     <div name="assert_full">
                         <input type="text" class="span11 assert_text" name="assert" placeholder="断言的内容，模糊匹配" value="{$step.assert|htmlspecialchars}">
                         <div  class="tips">

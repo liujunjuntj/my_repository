@@ -80,8 +80,8 @@ $(document).ready(function(){
 		}
 	});
 
-    $("input[name^=assert_radio_type]").each(function(){
-        var i = $(this).attr("name").split("_")[3];
+    $("input[name^=assert_type]").each(function(){
+        var i = $(this).attr("name").split("_")[2];
         if($(this).val() == $("input[name=assertType_" +i+"]").val()){
             $(this).attr("checked",true);
             return;
