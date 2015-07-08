@@ -151,11 +151,9 @@ class ModuleAction extends CommonAction{
 
         $condition['status'] = C('VALID');
         $condition['appId'] = $_SESSION['appId'];
-        $condition['userId'] = $_SESSION['uid'];
         foreach( $ids as $id ) {
             //查找模块下的api和用例
             $condition['mid'] = $id;
-
             $apis = D('Api')->where($condition)->getField('id', true);
             $cases = D('Case')->where($condition)->getField('id', true);
 
