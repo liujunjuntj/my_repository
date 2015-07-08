@@ -137,20 +137,25 @@ var findCase = function(){
 
 //获取api-table
 var getApiTable = function(){
+    var id = $("#api_id").val();
 	var path = $("#api_path").val();
-	if(path == ''){
+	if(id == '' && path == ''){
 		showInfo("请填写查询条件");
 		return false;
 	}
 	$.ajax({
 		type : "get",
 		url : URL + "/allApis",
-		data : "path=" + path,
+		data : "id=" + id + "&path=" + path,
 		success:function(result){
 			status = result.status;
         	if(status == 10001){
         		redirect('/Login/login');
         	}
+            if(status == 'success:false'){
+                showInfo(result.info);
+                return false;
+            }
 			$("#api_table").html(result.data);
 			//给增加按钮绑定点击事件
 			$(".add-api").click(function(){
