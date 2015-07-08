@@ -64,11 +64,20 @@ class CaseAction extends CommonAction {
 
     //异步获取api信息，返回table
     public function allApis() {
-        if (!empty($_GET['path'])) {
-            $condition['path'] = trim($_GET['path']);
+        $id = $this->_get('id');
+        $path = $this->_get('path');
+        if(!empty($id)){
+            $condition['id'] = trim($id);
+        }else{
+            if (!empty($path)) {
+                $condition['path'] = trim($path);
+            }
         }
         //分页
         $apis = D('Api')->getApis($condition);
+        if (empty($apis)) {
+            $this->ajaxReturn(null, "没有找到对应api", 'success:false');
+        }
         $this->assign('apis', $apis);
         $table = $this->fetch();
         $this->ajaxReturn($table, '成功', 'success:true');
