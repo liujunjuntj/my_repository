@@ -98,6 +98,10 @@ class StepModel extends CommonRelationModel{
 	}
 	
 	public function assert($caseId,$apiId,$reportId,$content){
+        //如果存在assertType字段，删掉咯
+        if(array_key_exists('assertType', $content)){
+            unset($content['assertType']);
+        }
 		$content['ip'] = C('DB_HOST');
 		$content['db'] = C('DB_NAME');
 		$content['username'] = C('DB_USER');

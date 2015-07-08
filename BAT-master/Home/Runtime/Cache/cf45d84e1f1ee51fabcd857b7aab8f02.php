@@ -136,6 +136,8 @@
 	</div>
 	<div class="green-black"><?php echo ($paging); ?></div>
 </div>
+<script type="text/javascript" src="__PUBLIC__/js/select2.js"></script>
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/css/select2.css">
 <script src="__PUBLIC__/js/module.js"></script>
 
 			</div>
