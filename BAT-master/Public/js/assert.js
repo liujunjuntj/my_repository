@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    updatePageBindEvent();
 //添加KEYVALUE断言操作
     $('.add-rule-assert').unbind('click').click(function () {
         getKeyValueTmpl('keyvalue', '', $(this));
@@ -21,7 +20,6 @@ $(document).ready(function() {
 });
 
 var trmoveToUp = function(){
-    alert("123");
     var move = $(this).closest(".assert_tr");
     var prev = move.prev(".assert_tr");
     prev.before(move);
@@ -56,13 +54,4 @@ var getKeyValueTmpl = function(action,params,dom){
             $(".assert_tr .icon-circle-arrow-down").last().click(trmoveToDown);
         }
     });
-}
-
-var updatePageBindEvent = function(){
-    $(".icon-remove").click(function(){
-        $(this).closest(".assert_tr").remove();
-    });
-    $(".assertrule .assert_tr .icon-circle-arrow-up").click(trmoveToUp);
-    $(".assertrule .assert_tr .icon-circle-arrow-down").click(trmoveToDown);
-
 }

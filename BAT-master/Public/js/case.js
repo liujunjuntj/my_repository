@@ -80,6 +80,7 @@ $(document).ready(function(){
 		}
 	});
 
+    //更新case时加载正确assert内容
     $("input[name^=assert_type]").each(function(){
         var i = $(this).attr("name").split("_")[2];
         if($(this).val() == $("input[name=assertType_" +i+"]").val()){
@@ -97,7 +98,6 @@ $(document).ready(function(){
             return;
         }
     });
-
 });
 
 
@@ -332,7 +332,7 @@ var formToJson = function(obj){
 }
 
 var updatePageBindEvent = function(){
-	$(".icon-remove").click(function(){
+	$("#accordion .icon-remove").click(function(){
 		$(this).closest(".accordion-group").remove();
 	});
 	$("#accordion .icon-circle-arrow-up").click(moveToUp);
@@ -364,6 +364,13 @@ var updatePageBindEvent = function(){
 		selectItem = $(this).val();
 		$(this).next("select").find("option[value="+selectItem+"]").attr("selected",true);
 	});
+
+    //为key-value模式的assert添加上下移动和删除
+    $(".assert_tr .icon-remove").unbind('click').click(function(){
+        $(this).closest(".assert_tr").remove();
+    });
+    $(".assert_tr .icon-circle-arrow-up").unbind('click').click(trmoveToUp);
+    $(".assert_tr .icon-circle-arrow-down").unbind('click').click(trmoveToDown);
 }
 
 var checkApiNextToAssert = function(){
@@ -380,7 +387,14 @@ var checkApiNextToAssert = function(){
 }
 
 var assertNotNull = function(){
-    result = true;
+    $("input[class^=assert_rule_]:checked").each(function(){
+        if($(this).closest(".controls").find(".assert_text[name=assert_key]").length == 0){
+            showError('用例中添加了断言，但是内容为空，请补充完整');
+            result = false;
+            return false;
+        }
+    });
+
     $(".assert_text[name=assert_key],.assert_text[name=assert_value]").each(function(){
             if($(this).val() == ""){
                 showError('断言描述不完整，请补充完整，谢谢！');
@@ -507,4 +521,16 @@ var keys = function(obj){
 	    	return "${" + item + "}";
 	    }
 	});
+}
+
+var trmoveToUp = function(){
+    var move = $(this).closest(".assert_tr");
+    var prev = move.prev(".assert_tr");
+    prev.before(move);
+}
+//assert_tr步骤向下移动
+var trmoveToDown = function(){
+    var move = $(this).closest(".assert_tr");
+    var next = $(this).closest(".assert_tr").next(".assert_tr");
+    next.after(move);
 }

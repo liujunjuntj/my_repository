@@ -123,11 +123,7 @@ class ModuleAction extends CommonAction{
         $condition['id'] = array('NEQ', $module['id']);
         $condition['name'] = $module['name'];
         $condition['appId'] = $module['appId'];
-<<<<<<< HEAD
         $condition['status'] = C('VALID');
-=======
-        $condition['status'] = array('EQ', 1);
->>>>>>> 00ef2868d8059fc814121b7395d5dc2d122112a6
         $temp = D('Module')->checkDuplicate($condition);
         if (!empty($temp)) {
             $this->ajaxReturn(0, "已经有相同的module存在，不允许重复录入", "success:false");
